@@ -3,6 +3,7 @@ project(NSPL VERSION 0.1.0 LANGUAGES CXX)
 
 # --- Options ---
 option(NSPL_BUILD_SHARED "Build NSPL as a shared library" OFF)
+option(NSPL_BUILD_EXAMPLES "Build NSPL Examples" OFF)
 
 # --- C++ standard --
 set(CMAKE_CXX_STANDARD 20)
@@ -40,9 +41,14 @@ target_link_libraries(NSPL
         spdlog::spdlog
 )
 
+if(NSPL_BUILD_EXAMPLES)
 # Build main application executable
-add_executable(NSPLApp src/main.cpp)
+file(GLOB_RECURSE EXAMPLE_SOURCES
+    examples/*.cpp
+)
+add_executable(NSPLApp ${EXAMPLE_SOURCES})
 target_link_libraries(NSPLApp PRIVATE NSPL)
+endif()
 
 # --- Install (optional) ---
 install(TARGETS NSPL
