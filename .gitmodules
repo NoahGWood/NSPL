@@ -1,0 +1,3 @@
+[submodule "vendor/gofpp"]
+	path = vendor/gofpp
+	url = https://github.com/NoahGWood/gofpp
