@@ -1,5 +1,6 @@
 #include <nspl/Application.hpp>
 #include <nspl/event/Event.h>
+#include <nspl/common/Logger.h>
 
 volatile std::sig_atomic_t g_SignalCaught = 0;
 
@@ -15,6 +16,9 @@ namespace NSPL
     bool Application::Init(const WindowDesc& desc){
         std::signal(SIGINT, SignalHandler);
         m_Running = true;
+        // Setup Logging
+        Logger::Init();
+        // Create main window
         auto main = std::make_unique<Window>(desc);
         m_Windows[main->GetWindowID()] = std::move(main);
         return m_Running;
@@ -22,7 +26,6 @@ namespace NSPL
     void Application::Run(){
         m_Running = true;
         while(m_Running && !g_SignalCaught){
-            // TODO
             PollEvents();
         }
     }
@@ -57,8 +60,6 @@ namespace NSPL
 
     void Application::OnEvent(const Event& event){
         m_Events.notify(event);
-        // if (event.type == nspl::Event::Quit)
-            // Quit();
     }
 
     void Application::PollEvents(){

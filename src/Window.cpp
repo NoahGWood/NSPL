@@ -1,5 +1,6 @@
 #include <nspl/window/Window.hpp>
 #include <stddef.h>
+#include <nspl/common/Logger.h>
 
 namespace NSPL
 {
@@ -17,11 +18,12 @@ namespace NSPL
 
         if(!m_SDLWindow){
             // throw std::runtime_error("Failed to create SDL_Window!");
+            CORE_FATAL("Failed to create SDL window!");
             return;
         }
         SDL_VERSION(&m_PlatformInfo.version);
         if(!SDL_GetWindowWMInfo(m_SDLWindow, &m_PlatformInfo)){
-        //     // TODO
+            CORE_FATAL("Failed to get platform info!");
             return;
         }
 
